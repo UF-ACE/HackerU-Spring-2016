@@ -41,10 +41,10 @@ touches = [0,0,0,0,0,0];
 
 while True:
 
-	#*Understand/explain interrupt pin
-	# check if the interupt pin has a high signal. if so, pass
-	# based on the capacitance of the specific beet
-	# IRQ is the Interrupt Request signal pin. It is pulled up to 3.3V on the breakout and when the sensor chip detects a change in the touch sense switches, the pin goes to 0V until the data is read over i2c
+	# IRQ is the Interrupt Request signal pin. It is pulled up to 3.3V on the breakout and when the sensor chip detects a change in the touch sense switches, 
+	# the pin goes to 0V until the data is read over i2c.
+
+	# This if checks if the interupt pin has a high signal. if so, pass based on the capacitance of the specific beet
 	if (GPIO.input(7)): # Interupt pin is high
 		pass
  
@@ -62,7 +62,7 @@ while True:
 				if (touches[i] == 0):
 
 					''' ADD A PRINT STATEMENT TO OUTPUT WHICH PIN WAS TOUCHED '''
-					print( 'Pin ' + str(i) + ' was just touched')
+					# print( 'Pin ' + str(i) + ' was just touched')
 
 					''' USE PYGAME .PLAY() METHOD TO PLAY EACH SOUND BASED ON PIN (i VALUE) TOUCHED'''
 					# if (i == 0):
@@ -79,14 +79,14 @@ while True:
 					# 	cymbal.play()
 
 				''' SET THE PIN'S VALUE IN THE touches ARRAY TO TRUE (1) '''
-				touches[i] = 1;
+				# touches[i] = 1;
 
 			#* explain else statement for if the beet is being touched
 			else:
 				if (touches[i] == 1):
 
 					''' ADD A PRINT STATEMENT TO OUTPUT WHICH PIN WAS RELEASED '''
-					print( 'Pin ' + str(i) + ' was just released')
+					# print( 'Pin ' + str(i) + ' was just released')
 				
 				''' SET THE PIN'S VALUE IN THE touches ARRAY TO FALSE (0) '''
 				touches[i] = 0;
