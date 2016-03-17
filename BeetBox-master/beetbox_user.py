@@ -45,20 +45,19 @@ while True:
 	# the pin goes to 0V until the data is read over i2c.
 
 	# This if checks if the interupt pin has a high signal. if so, pass based on the capacitance of the specific beet
-	if (GPIO.input(7)): # Interupt pin is high
+	if (GPIO.input(7)): # If the GPIO's pin 7 (Interupt) is high
 		pass
  
 	else: # Interupt pin is low
 
 		touchData = mpr121.readData(0x5a)
-		#*explain loop through each beet and check if the pin is activated.
-
-
+		
+		# Simultaneously loop through each beet and check if it is touched.
 		for i in range(6):
 			#*give information about bitwise manipulation
 			if (touchData & (1<<i)):
 
-				#*explain if the beet is not touched, print the beet that was touched and play the associated wav file
+				# If the beet i is not currently touched and is touched, print the beet that was touched, and play the corresponding wav file.
 				if (touches[i] == 0):
 
 					''' ADD A PRINT STATEMENT TO OUTPUT WHICH PIN WAS TOUCHED '''
@@ -81,7 +80,7 @@ while True:
 				''' SET THE PIN'S VALUE IN THE touches ARRAY TO TRUE (1) '''
 				# touches[i] = 1;
 
-			#* explain else statement for if the beet is being touched
+			# Else, if the beet is currently being touched, print that it is released, when it is released.
 			else:
 				if (touches[i] == 1):
 

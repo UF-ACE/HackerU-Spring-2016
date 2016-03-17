@@ -1,10 +1,12 @@
-#*explain smbus, read/write python package
+# SMBus conventionally refers to System Management Bus which is used for lightweight communication. 
+# The smbus packaged imported in the python code allows SMBus access through the I2C interface on Linux hosts.
 import smbus
 bus = smbus.SMBus(1)
 
 # MPR121 Register Defines
 
-#*explain the register definitions, relating to memory within the board
+# Lines 11-56 of mpr121_user.py define constants corresponding to the register map of the MPR121 chip. 
+# With these defined, the code becomes more readable when we write data through the bus.
 MHD_R = 0x2B
 NHD_R = 0x2C
 NCL_R = 0x2D
