@@ -17,7 +17,9 @@ mpr121.setup(0x5a)
 # User pygame for sounds
 
 pygame.mixer.pre_init(44100, -16, 12, 512)
-pygame.init()
+
+''' INITIALIZE PYGAME. SYNTAX IS IN PACKET '''
+# pygame.init()
 
 ''' ADD 4 MORE SOUNDS USING FORMAT BELOW. LOOK THROUGH SAMPLES FOLDER AND PICK. ADD VOLUME AS APPROPRIATE '''
 
@@ -44,12 +46,13 @@ while True:
 	# IRQ is the Interrupt Request signal pin. It is pulled up to 3.3V on the breakout and when the sensor chip detects a change in the touch sense switches, 
 	# the pin goes to 0V until the data is read over i2c.
 
-	# This if checks if the interupt pin has a high signal. if so, pass based on the capacitance of the specific beet
+	# This if checks if the interupt pin has a high signal. if so, break the loop.
 	if (GPIO.input(7)): # If the GPIO's pin 7 (Interupt) is high
 		pass
  
 	else: # Interupt pin is low
 
+		# Reads data from mpr121 through default address value of 0x5a.
 		touchData = mpr121.readData(0x5a)
 		
 		# Simultaneously loop through each beet and check if it is touched.
