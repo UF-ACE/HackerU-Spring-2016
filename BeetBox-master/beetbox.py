@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-
-"""beetbox.py: Trigger script for the BeetBox."""
-
-__author__ = "Scott Garner"
-__email__ = "scott@j38.net"
-
 import pygame
 
 import RPi.GPIO as GPIO
@@ -24,70 +17,53 @@ mpr121.setup(0x5a)
 # User pygame for sounds
 
 pygame.mixer.pre_init(44100, -16, 12, 512)
-pygame.init()
 
-#*Allow for students to add their own sounds. Provide one sound and let students figure out the rest they want to add.
+''' INITIALIZE PYGAME. SYNTAX IS IN PACKET '''
+
+''' ADD 4 MORE SOUNDS USING FORMAT BELOW. LOOK THROUGH SAMPLES FOLDER AND PICK. ADD VOLUME AS APPROPRIATE '''
+
 kick = pygame.mixer.Sound('samples/kick.wav')
 kick.set_volume(.65);
+
 snare = pygame.mixer.Sound('samples/snare.wav')
 snare.set_volume(.65);
-openhh = pygame.mixer.Sound('samples/open.wav')
-openhh.set_volume(.65);
-closedhh = pygame.mixer.Sound('samples/closed.wav')
-closedhh.set_volume(.65);
-clap = pygame.mixer.Sound('samples/clap.wav')
-clap.set_volume(.65);
-cymbal = pygame.mixer.Sound('samples/cymbal.wav')
-cymbal.set_volume(.65);
 
-# Track touches
-
+# Track the touches with this array. If a beet has been touched, the corresponding value in the array becomes 1
 touches = [0,0,0,0,0,0];
-
 
 while True:
 
-	#*check if the interupt pin has a high signal. if so, pass
-	#*based on the capacitance of the specific beet
-	#IRQ is the Interrupt Request signal pin. It is pulled up to 3.3V on the breakout and when the sensor chip detects a change in the touch sense switches, the pin goes to 0V until the data is read over i2c
-	if (GPIO.input(7)): # Interupt pin is high
+	# IRQ is the Interrupt Request signal pin. It is pulled up to 3.3V on the breakout and when the sensor chip detects a change in the touch sense switches, 
+	# the pin goes to 0V until the data is read over i2c.
+
+	# This if checks if the interupt pin has a high signal. if so, break the loop.
+	if (GPIO.input(7)): # If the GPIO's pin 7 (Interupt) is high
 		pass
-	#*otherwise 
+ 
 	else: # Interupt pin is low
 
+		# Reads data from mpr121 through default address value of 0x5a.
 		touchData = mpr121.readData(0x5a)
-		#*loop through each beet and check if the pin is activated.
-
-
+		
+		# Simultaneously loop through each beet and check if it is touched.
 		for i in range(6):
 			#*give information about bitwise manipulation
 			if (touchData & (1<<i)):
 
-				#*if the beet is not touched, print the beet that was touched and play the associated wav file
+				# If the beet i is not currently touched and is touched, print the beet that was touched, and play the corresponding wav file.
 				if (touches[i] == 0):
 
-					print( 'Pin ' + str(i) + ' was just touched')
+					''' ADD A PRINT STATEMENT TO OUTPUT WHICH PIN WAS TOUCHED '''
 
-					#*play the corresponding sound based on beet touched
-					if (i == 0):
-						kick.play()
-					elif (i == 1):
-						snare.play()
-					elif (i == 2):
-						openhh.play()
-					elif (i == 3):
-						closedhh.play()
-					elif (i == 4):
-						clap.play()
-					elif (i == 5):
-						cymbal.play()
+					''' USE PYGAME .PLAY() METHOD TO PLAY EACH SOUND BASED ON PIN (i VALUE) TOUCHED'''
 
-				#*Change the status of specific beet to 'touched'
-				touches[i] = 1;
+				''' SET THE PIN'S VALUE IN THE touches ARRAY TO TRUE (1) '''
 
-			#*else statement for if the beet is being touched
+			# Else, if the beet is currently being touched, print that it is released, when it is released.
 			else:
 				if (touches[i] == 1):
-					print( 'Pin ' + str(i) + ' was just released')
-				#*reset status of corresponding pin to being touched
+
+					''' ADD A PRINT STATEMENT TO OUTPUT WHICH PIN WAS RELEASED '''
+				
+				''' SET THE PIN'S VALUE IN THE touches ARRAY TO FALSE (0) '''
 				touches[i] = 0;
